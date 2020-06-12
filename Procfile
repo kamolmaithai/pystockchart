@@ -1,1 +1,1 @@
-web: gunicorn app:volprofileweb
+web: gunicorn volprofileweb:app

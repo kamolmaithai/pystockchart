@@ -15,7 +15,7 @@ def volprofile():
 	# ___variables___
 	ticker = request.args.get('ticker')
 	#start_time = request.args.get('starttime')
-	start_time = datetime.datetime(2019, 9, 1)
+	start_time = datetime.datetime.now() - datetime.timedelta(days=3*365)
 	#end_time = datetime.datetime(2019, 1, 20)
 	end_time = datetime.datetime.now().date().isoformat()         # today
 	# yahoo gives only daily historical data

@@ -10,6 +10,8 @@
 <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
 <script src="https://code.highcharts.com/stock/indicators/indicators.js"></script>
 <script src="https://code.highcharts.com/stock/indicators/volume-by-price.js"></script>
+<script src="https://code.highcharts.com/stock/indicators/rsi.js"></script>
+<script src="https://code.highcharts.com/stock/indicators/bollinger-bands.js"></script>
 <body>
 
 <div id="container" style="height: 500px; min-width: 310px"></div>
@@ -53,12 +55,13 @@ var data = {{jsondatas|tojson|safe}};
         },
 
         title: {
-            text: '{{ticker}} Historical'
+            text: 'S50H21 Historical'
         },
 
         subtitle: {
-            text: 'With SMA and Volume by Price technical indicators'
+            text: 'With BB and Volume by Price technical indicators'
         },
+        
 
         yAxis: [{
             startOnTick: false,
@@ -81,10 +84,31 @@ var data = {{jsondatas|tojson|safe}};
                 x: -3
             },
             title: {
-                text: 'Volume'
+                text: 'RSI'
             },
             top: '65%',
-            height: '35%',
+            height: '15%',
+            offset: 0,
+            lineWidth: 1,
+			plotLines: [{
+                value: 70,
+                color: 'blue',
+                width: 1
+            }, {
+                value: 30,
+                color: 'blue',
+                width: 1
+            }],
+        }, {
+            labels: {
+                align: 'right',
+                x: -3
+            },
+            title: {
+                text: 'Volume'
+            },
+            top: '80%',
+            height: '20%',
             offset: 0,
             lineWidth: 2
         }],
@@ -103,7 +127,7 @@ var data = {{jsondatas|tojson|safe}};
 
         series: [{
             type: 'candlestick',
-            name: '{{ticker}}',
+            name: 'S50H21',
             id: 'aapl',
             zIndex: 2,
             data: ohlc
@@ -112,7 +136,14 @@ var data = {{jsondatas|tojson|safe}};
             name: 'Volume',
             id: 'volume',
             data: volume,
-            yAxis: 1
+            yAxis: 2
+        }, {
+            type: 'rsi',
+			linkedTo: 'aapl',
+			yAxis: 1,
+			marker: {
+                enabled: false
+            }
         }, {
             type: 'vbp',
             linkedTo: 'aapl',
@@ -126,7 +157,7 @@ var data = {{jsondatas|tojson|safe}};
                 enabled: false
             }
         }, {
-            type: 'sma',
+            type: 'bb',
             linkedTo: 'aapl',
             zIndex: 1,
             marker: {

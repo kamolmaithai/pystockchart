@@ -1,5 +1,6 @@
 from flask import Flask, Markup, render_template, request
 import pandas as pd
+import requests
 
 # for pandas_datareader, otherwise it might have issues, sometimes there is some version mismatch
 pd.core.common.is_list_like = pd.api.types.is_list_like

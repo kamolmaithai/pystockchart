@@ -72,7 +72,7 @@ def volprofiletfex():
 	df = df_list[2]
 	df = df[:-1]
 	df = df.reset_index()
-	cols = ['Date' ,'Open', 'High','Low', 'Close' ,'SP','Chg', '%Chg','Vol', 'OI']
+	cols = ['Date' ,'Open', 'High','Low', 'Close' ,'SP','Chg', '%Chg','Volume', 'OI']
 	df.reindex(columns=cols)
 	jsondatas = json.loads(df.to_json(orient='records'))
 	#jsondatas = df.to_json(orient='records')

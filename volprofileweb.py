@@ -73,6 +73,7 @@ def volprofiletfex():
 	df_list = pd.read_html(r.text, header =0) # this parses all the tables in webpages to a list
 	df = df_list[2]
 	df = df[:-1]
+	df = df.iloc[::-1]
 	df = df.reset_index()
 	cols = ['Date' ,'Open', 'High','Low', 'Close' ,'SP','Chg', '%Chg','Volume', 'OI']
 	df.reindex(columns=cols)

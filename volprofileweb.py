@@ -79,6 +79,6 @@ def volprofiletfex():
 	jsondatas = json.loads(df.to_json(orient='records'))
 	#jsondatas = df.to_json(orient='records')
 
-	return render_template('volprofileindex.html', jsondatas=jsondatas, ticker=ticker)
+	return render_template('volprofileindextfex.html', jsondatas=jsondatas, ticker=ticker)
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=8080)

@@ -65,6 +65,7 @@ def volprofile2():
 
 @app.route('/volprofiletfex')
 def volprofiletfex():
+	ticker = request.args.get('ticker')
 	url = 'https://www.tfex.co.th/tfex/historicalTrading.html?locale=en_US&series=&symbol='+ticker+'&decorator=excel'
 
 	r = requests.get(url)

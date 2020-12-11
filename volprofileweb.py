@@ -56,12 +56,27 @@ def volprofile2():
 			time.sleep( 5 )
 			pass   
 	df = df.reset_index()
-	cols = ['Date', 'Close','Open' ,'Low', 'Height','Volume', 'Adj Close']
+	cols = ['Date', 'Close','Open' ,'Low', 'High','Volume', 'Adj Close']
 	df.reindex(columns=cols)
 	jsondatas = json.loads(df.to_json(orient='records'))
 	#jsondatas = df.to_json(orient='records')
 
 	return render_template('volprofileindex2.html', jsondatas=jsondatas, ticker=ticker)
 
+@app.route('/volprofiletfex')
+def volprofiletfex():
+	url = 'https://www.tfex.co.th/tfex/historicalTrading.html?locale=en_US&series=&symbol='+ticker+'&decorator=excel'
+
+	r = requests.get(url)
+	df_list = pd.read_html(r.text, header =0) # this parses all the tables in webpages to a list
+	df = df_list[2]
+	df = df[:-1]
+	df = df.reset_index()
+	cols = ['Date' ,'Open', 'High','Low', 'Close' ,'SP','Chg', '%Chg','Vol', 'OI']
+	df.reindex(columns=cols)
+	jsondatas = json.loads(df.to_json(orient='records'))
+	#jsondatas = df.to_json(orient='records')
+
+	return render_template('volprofileindex.html', jsondatas=jsondatas, ticker=ticker)
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=8080)

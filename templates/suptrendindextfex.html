@@ -36,7 +36,7 @@ var data = {{jsondatas|tojson|safe}};
         i = 0;
 	for (i; i < dataLength; i += 1) {
 		ohlc.push([
-            Date.parse(data[i].Date)/1000, // the date
+            Date.parse(data[i].Date), // the date
             data[i].Open, // open
             data[i].High, // high
             data[i].Low, // low
@@ -44,7 +44,7 @@ var data = {{jsondatas|tojson|safe}};
         ]);
 
         volume.push([
-            Date.parse(data[i].Date)/1000, // the date
+            Date.parse(data[i].Date), // the date
             data[i].Vol // the volume
         ]);
 		}

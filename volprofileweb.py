@@ -38,7 +38,7 @@ def volprofile():
 
 	return render_template('volprofileindex.html', jsondatas=jsondatas, ticker=ticker)
 @app.route('/supertrend')
-def volprofile2():
+def supertrend():
 	# ___variables___
 	ticker = request.args.get('ticker')
 	#start_time = request.args.get('starttime')
@@ -82,7 +82,7 @@ def volprofiletfex():
 	return render_template('volprofileindextfex.html', jsondatas=jsondatas, ticker=ticker)
 
 @app.route('/supertrendtfex')
-def volprofiletfex():
+def supertrendtfex():
 	ticker = request.args.get('ticker')
 	url = 'https://www.tfex.co.th/tfex/historicalTrading.html?locale=en_US&series=&symbol='+ticker+'&decorator=excel'
 	r = requests.get(url)

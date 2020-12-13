@@ -85,10 +85,31 @@ var data = {{jsondatas|tojson|safe}};
                 x: -3
             },
             title: {
-                text: 'Volume'
+                text: 'RSI'
             },
             top: '65%',
-            height: '35%',
+            height: '15%',
+            offset: 0,
+            lineWidth: 1,
+			plotLines: [{
+                value: 70,
+                color: 'blue',
+                width: 1
+            }, {
+                value: 30,
+                color: 'blue',
+                width: 1
+            }],
+        }, {
+            labels: {
+                align: 'right',
+                x: -3
+            },
+            title: {
+                text: 'Volume'
+            },
+            top: '80%',
+            height: '20%',
             offset: 0,
             lineWidth: 2
         }],

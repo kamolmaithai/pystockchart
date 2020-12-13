@@ -1,0 +1,206 @@
+<html>
+<head>
+</head>
+<!-- Styles -->
+<style>
+</style>
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/data.js"></script>
+<script src="https://code.highcharts.com/stock/modules/drag-panes.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/stock/indicators/indicators.js"></script>
+<script src="https://code.highcharts.com/stock/indicators/atr.js"></script>
+<script src="https://code.highcharts.com/stock/indicators/volume-by-price.js"></script>
+
+<script src="https://code.highcharts.com/stock/indicators/rsi.js"></script>
+<script src="https://code.highcharts.com/stock/indicators/supertrend.js"></script>
+<body>
+
+<div id="container" style="height: 500px; min-width: 310px"></div>
+</body>
+<script>
+var data = {{jsondatas|tojson|safe}};
+    // split the data set into ohlc and volume
+    var ohlc = [],
+        volume = [],
+        dataLength = data.length,
+        // set the allowed units for data grouping
+        groupingUnits = [[
+            'week',                         // unit name
+            [1]                             // allowed multiples
+        ], [
+            'month',
+            [1, 2, 3, 4, 6]
+        ]],
+
+        i = 0;
+	for (i; i < dataLength; i += 1) {
+		ohlc.push([
+            Date.parse(data[i].Date)/1000, // the date
+            data[i].Open, // open
+            data[i].High, // high
+            data[i].Low, // low
+            data[i].Close // close
+        ]);
+
+        volume.push([
+            Date.parse(data[i].Date)/1000, // the date
+            data[i].Vol // the volume
+        ]);
+		}
+
+    // create the chart
+    Highcharts.stockChart('container', {
+
+        rangeSelector: {
+            selected: 2
+        },
+
+        title: {
+            text: '{{ticker}} Historical'
+        },
+
+        subtitle: {
+            text: 'With ST1-2-3 and Volume by Price technical indicators'
+        },
+
+        yAxis: [{
+            startOnTick: false,
+            endOnTick: false,
+            labels: {
+                align: 'right',
+                x: -3
+            },
+            title: {
+                text: 'OHLC'
+            },
+            height: '60%',
+            lineWidth: 2,
+            resize: {
+                enabled: true
+            }
+        }, {
+            labels: {
+                align: 'right',
+                x: -3
+            },
+            title: {
+                text: 'Volume'
+            },
+            top: '65%',
+            height: '35%',
+            offset: 0,
+            lineWidth: 2
+        }],
+
+        tooltip: {
+            split: true
+        },
+
+        plotOptions: {
+            series: {
+                dataGrouping: {
+                    units: groupingUnits
+                }
+            }
+        },
+
+        series: [{
+            type: 'candlestick',
+            name: 'S50H21',
+            id: 'aapl',
+            zIndex: 2,
+            data: ohlc
+        }, {
+            type: 'column',
+            name: 'Volume',
+            id: 'volume',
+            data: volume,
+            yAxis: 2
+        }, {
+            type: 'rsi',
+			linkedTo: 'aapl',
+			yAxis: 1,
+			marker: {
+                enabled: false
+            }
+        }, {
+            type: 'vbp',
+            linkedTo: 'aapl',
+            params: {
+                volumeSeriesID: 'volume'
+            },
+            dataLabels: {
+                enabled: false
+            },
+            zoneLines: {
+                enabled: false
+            }
+        }, {
+            type: 'supertrend',
+            linkedTo: 'aapl',
+            lineWidth: 2,
+            params: {
+                multiplier: 1,
+                period: 10
+            },
+            marker: {
+                enabled: false
+            },
+            risingTrendColor: '#16C535',
+            fallingTrendColor: '#F22303',
+            changeTrendLine: {
+                styles: {
+                    lineWidth: 0.5,
+                    lineColor: '#000',
+                    dashStyle: 'Dash'
+                }
+            }
+        }, {
+            type: 'supertrend',
+            linkedTo: 'aapl',
+            lineWidth: 2,
+            params: {
+                multiplier: 2,
+                period: 11
+            },
+            marker: {
+                enabled: false
+            },
+            risingTrendColor: '#16C535',
+            fallingTrendColor: '#F22303',
+            changeTrendLine: {
+                styles: {
+                    lineWidth: 0.5,
+                    lineColor: '#000',
+                    dashStyle: 'Dash'
+                }
+            }
+        }, {
+            type: 'supertrend',
+            linkedTo: 'aapl',
+            lineWidth: 2,
+            params: {
+                multiplier: 3,
+                period: 12
+            },
+            marker: {
+                enabled: false
+            },
+            risingTrendColor: '#16C535',
+            fallingTrendColor: '#F22303',
+            changeTrendLine: {
+                styles: {
+                    lineWidth: 0.5,
+                    lineColor: '#000',
+                    dashStyle: 'Dash'
+                }
+            }
+        }]
+    });
+
+</script>
+</html>
+
+
+

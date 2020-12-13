@@ -37,7 +37,7 @@ def volprofile():
 	#jsondatas = df.to_json(orient='records')
 
 	return render_template('volprofileindex.html', jsondatas=jsondatas, ticker=ticker)
-@app.route('/volprofile2')
+@app.route('/supertrend')
 def volprofile2():
 	# ___variables___
 	ticker = request.args.get('ticker')
@@ -62,13 +62,12 @@ def volprofile2():
 	jsondatas = json.loads(df.to_json(orient='records'))
 	#jsondatas = df.to_json(orient='records')
 
-	return render_template('volprofileindex2.html', jsondatas=jsondatas, ticker=ticker)
+	return render_template('supertrendindex.html', jsondatas=jsondatas, ticker=ticker)
 
 @app.route('/volprofiletfex')
 def volprofiletfex():
 	ticker = request.args.get('ticker')
 	url = 'https://www.tfex.co.th/tfex/historicalTrading.html?locale=en_US&series=&symbol='+ticker+'&decorator=excel'
-
 	r = requests.get(url)
 	df_list = pd.read_html(r.text, header =0) # this parses all the tables in webpages to a list
 	df = df_list[2]
@@ -81,5 +80,22 @@ def volprofiletfex():
 	#jsondatas = df.to_json(orient='records')
 
 	return render_template('volprofileindextfex.html', jsondatas=jsondatas, ticker=ticker)
+
+@app.route('/supertrendtfex')
+def volprofiletfex():
+	ticker = request.args.get('ticker')
+	url = 'https://www.tfex.co.th/tfex/historicalTrading.html?locale=en_US&series=&symbol='+ticker+'&decorator=excel'
+	r = requests.get(url)
+	df_list = pd.read_html(r.text, header =0) # this parses all the tables in webpages to a list
+	df = df_list[2]
+	df = df[:-1]
+	df = df.iloc[::-1]
+	df = df.reset_index()
+	cols = ['Date' ,'Open', 'High','Low', 'Close' ,'SP','Chg', '%Chg','Vol', 'OI']
+	df.reindex(columns=cols)
+	jsondatas = json.loads(df.to_json(orient='records'))
+	#jsondatas = df.to_json(orient='records')
+
+	return render_template('suptrendindextfex.html', jsondatas=jsondatas, ticker=ticker)
 if __name__ == '__main__':
 	app.run(host='0.0.0.0', port=8080)
